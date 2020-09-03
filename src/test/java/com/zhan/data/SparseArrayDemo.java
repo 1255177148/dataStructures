@@ -17,7 +17,7 @@ public class SparseArrayDemo {
          * 创建一个原始的二维数组，模拟围棋
          * 0：表示没有棋子；1：表示黑子；2：表示白子
          */
-        int chessArr[][] = new int[11][11];
+        int[][] chessArr = new int[11][11];
         chessArr[1][2] = 1;
         chessArr[2][3] = 2;
         // 输出原始的二维数组
@@ -31,15 +31,15 @@ public class SparseArrayDemo {
         // 将二维数组 转 稀疏数组
         // 1、先遍历原始数组，找到有效数据的个数
         int sum = 0;
-        for (int i = 0; i < chessArr.length; i++) {
-            for (int j = 0; j < chessArr[i].length; j++) {
-                if (chessArr[i][j] != 0){
-                    sum ++;
+        for (int[] ints : chessArr) {
+            for (int anInt : ints) {
+                if (anInt != 0) {
+                    sum++;
                 }
             }
         }
         // 2、创建对应的稀疏数组
-        int sparseArr[][] = new int[sum+1][3];
+        int[][] sparseArr = new int[sum+1][3];
         // 给稀疏数组赋值
         sparseArr[0][0] = 11;
         sparseArr[0][1] = 11;
