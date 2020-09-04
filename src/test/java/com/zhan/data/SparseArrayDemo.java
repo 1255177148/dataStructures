@@ -28,7 +28,9 @@ public class SparseArrayDemo {
             System.out.println();
         }
 
-        // 将二维数组 转 稀疏数组
+        /**
+         * 将二维数组 转 稀疏数组
+         */
         // 1、先遍历原始数组，找到有效数据的个数
         int sum = 0;
         for (int[] ints : chessArr) {
@@ -59,6 +61,22 @@ public class SparseArrayDemo {
         // 输出稀疏数组
         System.out.println("\n转化的稀疏数组为----------");
         for (int[] row : sparseArr){
+            for (int data : row){
+                System.out.print(data + "\t");
+            }
+            System.out.println();
+        }
+
+        /**
+         * 将稀疏数组还原为二维数组
+         */
+        int[][] arr = new int[sparseArr[0][0]][sparseArr[0][1]];
+        for (int i = 1;i<sparseArr.length;i++){
+            arr[sparseArr[i][0]][sparseArr[i][1]] = sparseArr[i][2];
+        }
+        // 输入还原后的二维数组
+        System.out.println("\n还原后的二维数组为-----------");
+        for (int[] row : arr){
             for (int data : row){
                 System.out.print(data + "\t");
             }
