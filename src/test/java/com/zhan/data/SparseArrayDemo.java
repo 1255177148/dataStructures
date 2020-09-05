@@ -3,6 +3,8 @@ package com.zhan.data;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.*;
+
 /**
  * @Author Zhanzhan
  * @Date 2020/9/3 15:45
@@ -12,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class SparseArrayDemo {
 
     @Test
-    void demo() {
+    void demo() throws IOException {
         /**
          * 创建一个原始的二维数组，模拟围棋
          * 0：表示没有棋子；1：表示黑子；2：表示白子
@@ -77,6 +79,46 @@ public class SparseArrayDemo {
         // 输入还原后的二维数组
         System.out.println("\n还原后的二维数组为-----------");
         for (int[] row : arr){
+            for (int data : row){
+                System.out.print(data + "\t");
+            }
+            System.out.println();
+        }
+
+        /**
+         * 将稀疏数组写入文件保存
+         */
+        System.out.println("\n将稀疏数组写入文件中-------------");
+        File file = new File("F:\\arrayDemo.data");
+        FileWriter writer = new FileWriter(file);
+        for (int[] row : sparseArr){
+            for (int data : row){
+                writer.write(data + "\t"); // 逐行写入
+            }
+            writer.write("\r\n"); // 另起换行
+        }
+        writer.close();
+
+        /**
+         * 从文件中读取数据并还原为原始二维数组
+         */
+        System.out.println("\n从文件中读取并还原为原始二维数组~~~~~~~~~~~~~");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        int fileRow = 0;
+        int[][] originalArr = new int[0][];
+        // 逐行读取
+        while ((line = reader.readLine()) != null){
+            String[] temp = line.split("\t");
+            if (fileRow == 0){
+                originalArr = new int[Integer.parseInt(temp[0])][Integer.parseInt(temp[1])];
+            } else {
+                originalArr[Integer.parseInt(temp[0])][Integer.parseInt(temp[1])] = Integer.parseInt(temp[2]);
+            }
+            fileRow++;
+        }
+        // 输入还原后的二维数组
+        for (int[] row : originalArr){
             for (int data : row){
                 System.out.print(data + "\t");
             }
