@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @Author Zhanzhan
  * @Date 2020/9/6 12:04
  * 单链表demo
+ * 链表中，每个节点的都会有一个指针，指向下一个节点，彼此链接
  */
 @SpringBootTest
 public class SingleLinkedListDemo {
@@ -112,6 +113,34 @@ public class SingleLinkedListDemo {
      */
     @Test
     void getByIndex() {
+
+        /**
+         * 创建链表
+         */
+        SingleLinkedList singleLinkedList = initialization();
+        singleLinkedList.list();
+
+        singleLinkedList.getNodeByIndex(7);
+    }
+
+    /**
+     * 测试将单链表反转
+     */
+    @Test
+    void reverse() {
+        SingleLinkedList singleLinkedList = initialization();
+        System.out.println("反转前的单链表为：");
+        singleLinkedList.list();
+        singleLinkedList.reverse(singleLinkedList.getHead());
+        System.out.println("反转后的单链表为：");
+        singleLinkedList.list();
+    }
+
+    /**
+     * 初始化一个单链表
+     * @return
+     */
+    private SingleLinkedList initialization(){
         /**
          * 先创建节点
          */
@@ -132,8 +161,6 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(node5);
         singleLinkedList.addByOrder(node4);
         singleLinkedList.addByOrder(node6);
-        singleLinkedList.list();
-
-        singleLinkedList.getNodeByIndex(7);
+        return singleLinkedList;
     }
 }

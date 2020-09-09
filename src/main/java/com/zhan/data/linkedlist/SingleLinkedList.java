@@ -10,6 +10,14 @@ public class SingleLinkedList {
     private final Node head = new Node(0, "");
 
     /**
+     * 返回头节点
+     * @return
+     */
+    public Node getHead(){
+        return head;
+    }
+
+    /**
      * 向单链表中添加一个节点,不考虑顺序
      * 1、找到当前链表的最后节点
      * 2、将最后的这个节点的next指向新的节点
@@ -156,5 +164,26 @@ public class SingleLinkedList {
         } else {
             System.out.println("没有找到倒数第" + index + "个节点");
         }
+    }
+
+    /**
+     * 反转单链表
+     * @param head
+     */
+    public void reverse(Node head){
+        // 如果当前链表为空，或者只有一个节点，无需反转
+        if (head.getNext() == null || head.getNext().getNext() == null){
+            return;
+        }
+        Node current = head.getNext();// 这里表示当前节点，从第一个节点开始
+        Node temp = null; // 临时保存下当前节点的指针
+        Node pre = new Node(0, ""); // 定义上一节点
+        while (current != null){
+            temp = current.getNext(); // 临时保存下当前节点的指针
+            current.setNext(pre.getNext()); // 将当前节点的指针指向上一节点
+            pre.setNext(current); // pre节点前移
+            current = temp; // 将临时保存的指针赋给current，即current节点遍历链表，依次取出链表中的数据
+        }
+        head.setNext(pre.getNext()); // 将头节点指向最终的pre节点
     }
 }

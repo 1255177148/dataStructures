@@ -1,6 +1,5 @@
 package com.zhan.data;
 
-import com.zhan.data.queue.ArrayQueue;
 import com.zhan.data.queue.RingQueue;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
