@@ -151,6 +151,43 @@ public class SingleLinkedListDemo {
     }
 
     /**
+     * 合并两个有序单链表，合并后的链表依然有序
+     */
+    @Test
+    void mergeList() {
+        SingleLinkedList list1 = initialization();
+        System.out.println("合并前的第一个链表为：");
+        list1.list();
+
+        /**
+         * 先创建节点
+         */
+        Node node1 = new Node(1, "张三");
+        Node node2 = new Node(3, "李四");
+        Node node3 = new Node(5, "王五");
+        Node node4 = new Node(7, "大脚");
+        Node node5 = new Node(9, "尼古拉斯-赵四");
+        Node node6 = new Node(11, "桃园F3");
+
+
+        SingleLinkedList list2 = new SingleLinkedList();
+        list2.addByOrder(node1);
+        list2.addByOrder(node2);
+        list2.addByOrder(node3);
+        list2.addByOrder(node4);
+        list2.addByOrder(node5);
+        list2.addByOrder(node6);
+        System.out.println("合并前的第二个链表为：");
+        list2.list();
+
+        System.out.println("合并链表------------");
+        SingleLinkedList list = new SingleLinkedList();
+        Node head = list.mergeList(list1.getHead(), list2.getHead());
+        System.out.println("合并后的新链表为：");
+        list.list(head);
+    }
+
+    /**
      * 初始化一个单链表
      * @return
      */

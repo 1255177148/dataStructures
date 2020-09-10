@@ -136,6 +136,18 @@ public class SingleLinkedList {
         }
     }
 
+    public void list(Node head){
+        if (head.getNext() == null){
+            System.out.println("链表为空");
+            return;
+        }
+        Node temp = head.getNext(); // 指针从头节点开始
+        while (temp != null) {
+            System.out.println(temp.toString());
+            temp = temp.getNext(); // 指针后移
+        }
+    }
+
     /**
      * 查找倒数第index个节点，
      * 这里实现的思路为：可以设置两个指针a和b，a、b间隔index个位置，即a从第一个位置遍历，b从第(index + 1)个位置遍历,
@@ -209,5 +221,56 @@ public class SingleLinkedList {
         while (stack.size() > 0){
             System.out.println(stack.pop());
         }
+    }
+
+    /**
+     * 有头节点的两个有序单链表合并，合并后的链表依然有序
+     * @param head1 第一个单链表的头节点
+     * @param head2 第二个单链表的头节点
+     */
+    public Node mergeList(Node head1, Node head2){
+        // 如果两个单链表至少有一个为空，那就不用比较，直接返回不为空的链表
+        if (head1.getNext() == null){
+            return head2;
+        }
+        if (head2.getNext() == null){
+            return head1;
+        }
+        Node head = new Node(0, ""); // 创建一个新的头节点，用来指向合并后的单链表
+        Node current1 = head1.getNext();
+        Node current2 = head2.getNext();
+
+        // 先比较第一个节点，谁小就先放到head节点的后面
+        if (current1.getNo() <= current2.getNo()){
+            head.setNext(current1);
+            current1 = current1.getNext();
+        } else {
+            head.setNext(current2);
+            current2 = current2.getNext();
+        }
+
+        Node temp = head.getNext();
+
+        // 接下来就遍历，然后分别比对下两个链表的值，谁小谁就放在新创建的链表的后面
+        // 循环到直到其中一个链表为空，那么之后的数据就直接指向没有为空的链表就行了
+        while (current1 != null && current2 != null){
+            if (current1.getNo() <= current2.getNo()){
+                temp.setNext(current1);
+                current1 = current1.getNext();
+            } else {
+                temp.setNext(current2);
+                current2 = current2.getNext();
+            }
+            temp = temp.getNext();
+        }
+
+        // 接下来将没有没空的链表直接放在新创建的链表的后面就行
+        if (current1 == null){
+            temp.setNext(current2);
+        }
+        if (current2 == null){
+            temp.setNext(current1);
+        }
+        return head;
     }
 }
