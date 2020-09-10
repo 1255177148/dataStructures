@@ -137,6 +137,20 @@ public class SingleLinkedListDemo {
     }
 
     /**
+     * 将单链表逆序打印
+     */
+    @Test
+    void reversePrint() {
+        SingleLinkedList singleLinkedList = initialization();
+        System.out.println("原链表为：");
+        singleLinkedList.list();
+        System.out.println("开始逆序打印------");
+        singleLinkedList.reversePrint(singleLinkedList.getHead());
+        System.out.println("逆序打印后的链表为：");
+        singleLinkedList.list();
+    }
+
+    /**
      * 初始化一个单链表
      * @return
      */

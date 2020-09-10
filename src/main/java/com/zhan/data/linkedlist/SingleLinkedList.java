@@ -1,5 +1,7 @@
 package com.zhan.data.linkedlist;
 
+import java.util.Stack;
+
 /**
  * @Author Zhanzhan
  * @Date 2020/9/6 11:41
@@ -185,5 +187,27 @@ public class SingleLinkedList {
             current = temp; // 将临时保存的指针赋给current，即current节点遍历链表，依次取出链表中的数据
         }
         head.setNext(pre.getNext()); // 将头节点指向最终的pre节点
+    }
+
+    /**
+     * 将链表逆序打印，
+     * 不改变原链表的结构
+     * @param head
+     */
+    public void reversePrint(Node head){
+        // 如果当前链表为空，则不能逆序打印
+        if (head.getNext() == null){
+            System.out.println("空链表，无法打印");
+            return;
+        }
+        Node current = head.getNext();
+        Stack<Node> stack = new Stack<>();
+        while (current != null){
+            stack.push(current);
+            current = current.getNext();
+        }
+        while (stack.size() > 0){
+            System.out.println(stack.pop());
+        }
     }
 }
