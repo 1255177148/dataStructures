@@ -97,4 +97,39 @@ public class DoubleLinkedList {
             System.out.println("没有找到要删除的节点");
         }
     }
+
+    /**
+     * 按顺序添加节点
+     * @param node
+     */
+    public void addByOrder(DoubleNode node){
+        boolean exist = false;
+        DoubleNode temp = head;
+        while (true){
+            if (temp.getNext() == null){
+                break;
+            }
+            if (temp.getNext().getNo() > node.getNo()){
+                break;
+            }
+            if (temp.getNext().getNo() == node.getNo()){
+                exist = true;
+                break;
+            }
+            temp = temp.getNext();
+        }
+        if (exist){
+            System.out.println("要添加的节点已存在");
+            return;
+        }
+        if (temp.getNext() == null){
+            temp.setNext(node);
+            node.setPre(temp);
+            return;
+        }
+        node.setNext(temp.getNext());
+        node.setPre(temp);
+        temp.getNext().setPre(node);
+        temp.setNext(node);
+    }
 }

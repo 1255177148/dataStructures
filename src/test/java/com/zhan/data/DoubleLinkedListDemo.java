@@ -60,6 +60,33 @@ public class DoubleLinkedListDemo {
     }
 
     /**
+     * 有序向双向链表添加节点
+     */
+    @Test
+    void addByOrder() {
+        /**
+         * 先创建节点
+         */
+        DoubleNode node1 = new DoubleNode(1, "张三");
+        DoubleNode node2 = new DoubleNode(2, "李四");
+        DoubleNode node3 = new DoubleNode(3, "王五");
+        DoubleNode node4 = new DoubleNode(4, "大脚");
+        DoubleNode node5 = new DoubleNode(5, "尼古拉斯-赵四");
+        DoubleNode node6 = new DoubleNode(6, "桃园F3");
+
+        DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
+        doubleLinkedList.addByOrder(node2);
+        doubleLinkedList.addByOrder(node1);
+        doubleLinkedList.addByOrder(node4);
+        doubleLinkedList.addByOrder(node3);
+        doubleLinkedList.addByOrder(node6);
+        doubleLinkedList.addByOrder(node5);
+
+        System.out.println("有序添加节点后的链表为：");
+        doubleLinkedList.list();
+    }
+
+    /**
      * 初始化一个双向链表
      * @return
      */
