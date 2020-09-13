@@ -47,4 +47,36 @@ public class RingSingleLinkedList {
             current = current.getNext();
         }
     }
+
+    /**
+     * 约瑟夫问题，统计出圈顺序
+     * @param start 表示从第几个开始数
+     * @param step 表示数几下
+     * @param initialNum 表示最初有几个数据在圈里
+     */
+    public void count(int start, int step, int initialNum){
+        if (first == null || start < 1 || start > initialNum){
+            System.out.println("参数输入有误");
+        }
+        // 先将first指针移动到指定的开始数
+        for (int i = 0;i<start-1;i++){
+            first = first.getNext();
+        }
+        Node temp = first;
+        while (temp.getNext() != first) {
+            temp = temp.getNext();
+        }
+
+        while (temp != first){
+            for (int i = 0;i< step -1;i++){
+                first = first.getNext();
+                temp = temp.getNext();
+            }
+            System.out.printf("节点%d出圈\t",first.getNo());
+            first = first.getNext();
+            temp.setNext(first);
+        }
+        System.out.println();
+        System.out.printf("最后留在圈中的是%d",first.getNo());
+    }
 }

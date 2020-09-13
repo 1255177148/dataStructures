@@ -21,4 +21,17 @@ public class JosephDemo {
         ringSingleLinkedList.create(5);
         ringSingleLinkedList.show();
     }
+
+    /**
+     * 约瑟夫问题，查看出圈顺序
+     */
+    @Test
+    void count() {
+        // 首先创建一个环形单向链表
+        RingSingleLinkedList ringSingleLinkedList = new RingSingleLinkedList();
+        ringSingleLinkedList.create(10);
+        System.out.println("创建的环形单向链表为：");
+        ringSingleLinkedList.show();
+        ringSingleLinkedList.count(3, 3, 10);
+    }
 }
