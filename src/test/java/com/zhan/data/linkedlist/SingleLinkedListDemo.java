@@ -1,7 +1,5 @@
-package com.zhan.data;
+package com.zhan.data.linkedlist;
 
-import com.zhan.data.linkedlist.Node;
-import com.zhan.data.linkedlist.SingleLinkedList;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

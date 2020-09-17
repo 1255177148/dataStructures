@@ -1,4 +1,4 @@
-package com.zhan.data;
+package com.zhan.data.stack;
 
 import com.zhan.data.linkedlist.Node;
 import com.zhan.data.stack.LinkedStack;

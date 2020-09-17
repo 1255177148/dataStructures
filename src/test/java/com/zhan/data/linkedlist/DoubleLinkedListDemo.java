@@ -1,7 +1,5 @@
-package com.zhan.data;
+package com.zhan.data.linkedlist;
 
-import com.zhan.data.linkedlist.DoubleLinkedList;
-import com.zhan.data.linkedlist.DoubleNode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

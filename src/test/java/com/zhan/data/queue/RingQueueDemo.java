@@ -1,4 +1,4 @@
-package com.zhan.data;
+package com.zhan.data.queue;
 
 import com.zhan.data.queue.RingQueue;
 import org.junit.jupiter.api.Test;

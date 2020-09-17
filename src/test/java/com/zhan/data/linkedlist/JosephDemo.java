@@ -1,6 +1,5 @@
-package com.zhan.data;
+package com.zhan.data.linkedlist;
 
-import com.zhan.data.linkedlist.RingSingleLinkedList;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

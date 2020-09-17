@@ -68,6 +68,19 @@ public class ArrayStack<T> {
     }
 
     /**
+     * 查看栈顶，
+     * 不会将栈顶的数据取出
+     * @return
+     */
+    public T peek(){
+        if (isEmpty()) {
+            System.out.println("栈已空");
+            return null;
+        }
+        return stack[top];
+    }
+
+    /**
      * 遍历栈
      */
     public void list() {
