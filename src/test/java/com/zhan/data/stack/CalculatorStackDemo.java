@@ -16,7 +16,7 @@ public class CalculatorStackDemo {
     @Test
     void demo() {
         // 先给定一个要计算的字符串表达式
-        String expression = "10-30+5*2-40/20";
+        String expression = "-10-30+5*2-40/20";
 
         // 再创建两个栈，一个放数据，为数栈，一个放运算符，为符栈
         CalculatorStack<String> numStack = new CalculatorStack<>(10, String.class);
@@ -37,6 +37,10 @@ public class CalculatorStackDemo {
 
             // 然后判断取出的单个字符，是数字还是运算符
             if (operatorStack.isPriority(single.charAt(0))) {
+                // 如果开头是一个负数，那么负数的“-”会被识别为运算符，那么在开头插入一个数字0
+                if (index == 0){
+                    numStack.push("0");
+                }
                 // 如果当前是运算符
                 // 判断当前的符号栈是否为空，为空则直接入栈
                 if (operatorStack.isEmpty()) {
