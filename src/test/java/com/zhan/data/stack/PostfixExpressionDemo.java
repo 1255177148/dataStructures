@@ -1,5 +1,6 @@
 package com.zhan.data.stack;
 
+import com.zhan.data.util.CalculationUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,9 +27,21 @@ public class PostfixExpressionDemo {
         String expression = "3 4 + 2 * 2 - 2 /";
 
         // 将表达式转为一个数组，方便遍历
-        List<String> list = Arrays.asList(expression.split(" "));
+        String[] list = expression.split(" ");
 
         Stack<String> stack = new Stack<>();
-        // todo
+
+        // 遍历集合，将数据压入栈中，如果遇到运算符，则从栈中pop出两个数据进行运算，将运算结果再压入栈中
+        for (String str : list){
+            if (str.matches("\\d+")){ //正则表达式，匹配数字
+                stack.push(str);
+            } else {
+                int num1 = Integer.parseInt(stack.pop());
+                int num2 = Integer.parseInt(stack.pop());
+                int result = CalculationUtil.calculation(num1, num2, str.charAt(0));
+                stack.push(String.valueOf(result));
+            }
+        }
+        System.out.printf("表达式%s=%s", expression, stack.pop());
     }
 }

@@ -1,5 +1,6 @@
 package com.zhan.data.stack;
 
+import com.zhan.data.util.CalculationUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -53,15 +54,13 @@ public class CalculatorStackDemo {
                      * 进行运算，将运算的结果入数栈，再将当前的运算符入符号栈
                      */
                     if (operatorStack.getPriority(single.charAt(0)) <= operatorStack.getPriority(operatorStack.peek().charAt(0))) {
-                        num1 = Integer.valueOf(numStack.pop());
-                        num2 = Integer.valueOf(numStack.pop());
+                        num1 = Integer.parseInt(numStack.pop());
+                        num2 = Integer.parseInt(numStack.pop());
                         operator = operatorStack.pop().charAt(0);
-                        result = numStack.calculation(num1, num2, operator);
+                        result = CalculationUtil.calculation(num1, num2, operator);
                         numStack.push(String.valueOf(result));
-                        operatorStack.push(single);
-                    } else {
-                        operatorStack.push(single);
                     }
+                    operatorStack.push(single);
                 }
             } else {
                 // 如果当前是数字，则直接入栈
@@ -69,8 +68,8 @@ public class CalculatorStackDemo {
                 if (pre == null || operatorStack.isPriority(pre.charAt(0))){
                     numStack.push(single);
                 } else {
-                    int num = Integer.valueOf(numStack.pop());
-                    result = num * 10 + Integer.valueOf(single);
+                    int num = Integer.parseInt(numStack.pop());
+                    result = num * 10 + Integer.parseInt(single);
                     numStack.push(String.valueOf(result));
                 }
 
@@ -81,10 +80,10 @@ public class CalculatorStackDemo {
 
         // 扫描完毕，开始顺序的从符号栈和数栈中pop出相应的数和运算符，并运算
         while (!operatorStack.isEmpty()){
-            num1 = Integer.valueOf(numStack.pop());
-            num2 = Integer.valueOf(numStack.pop());
+            num1 = Integer.parseInt(numStack.pop());
+            num2 = Integer.parseInt(numStack.pop());
             operator = operatorStack.pop().charAt(0);
-            result = numStack.calculation(num1, num2, operator);
+            result = CalculationUtil.calculation(num1, num2, operator);
             numStack.push(String.valueOf(result));
         }
 
