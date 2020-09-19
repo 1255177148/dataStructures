@@ -24,10 +24,10 @@ public class CalculatorStackDemo {
         CalculatorStack<String> operatorStack = new CalculatorStack<>(10, String.class);
 
         int index = 0;
-        int num1; // 单次的运算数1
-        int num2; // 单次的运算数2
-        char operator; // 单次的运算符
-        int result; // 单次运算的结果
+        String num1; // 单次的运算数1
+        String num2; // 单次的运算数2
+        String operator; // 单次的运算符
+        String result; // 单次运算的结果
         String pre = null; // 记录下上一个数据
         String single;
 
@@ -37,7 +37,7 @@ public class CalculatorStackDemo {
             single = expression.substring(index, index + 1);
 
             // 然后判断取出的单个字符，是数字还是运算符
-            if (operatorStack.isPriority(single.charAt(0))) {
+            if (CalculationUtil.isPriority(single)) {
                 // 如果开头是一个负数，那么负数的“-”会被识别为运算符，那么在开头插入一个数字0
                 if (index == 0){
                     numStack.push("0");
@@ -53,10 +53,10 @@ public class CalculatorStackDemo {
                      * 则要从数栈里pop两个数据，再从符号栈里pop出一个运算符，
                      * 进行运算，将运算的结果入数栈，再将当前的运算符入符号栈
                      */
-                    if (operatorStack.getPriority(single.charAt(0)) <= operatorStack.getPriority(operatorStack.peek().charAt(0))) {
-                        num1 = Integer.parseInt(numStack.pop());
-                        num2 = Integer.parseInt(numStack.pop());
-                        operator = operatorStack.pop().charAt(0);
+                    if (CalculationUtil.getPriority(single) <= CalculationUtil.getPriority(operatorStack.peek())) {
+                        num1 = numStack.pop();
+                        num2 = numStack.pop();
+                        operator = operatorStack.pop();
                         result = CalculationUtil.calculation(num1, num2, operator);
                         numStack.push(String.valueOf(result));
                     }
@@ -65,11 +65,11 @@ public class CalculatorStackDemo {
             } else {
                 // 如果当前是数字，则直接入栈
                 // 先判断下是否为多位数
-                if (pre == null || operatorStack.isPriority(pre.charAt(0))){
+                if (pre == null || CalculationUtil.isPriority(pre)){
                     numStack.push(single);
                 } else {
                     int num = Integer.parseInt(numStack.pop());
-                    result = num * 10 + Integer.parseInt(single);
+                    result = String.valueOf(num * 10 + Integer.parseInt(single));
                     numStack.push(String.valueOf(result));
                 }
 
@@ -80,9 +80,9 @@ public class CalculatorStackDemo {
 
         // 扫描完毕，开始顺序的从符号栈和数栈中pop出相应的数和运算符，并运算
         while (!operatorStack.isEmpty()){
-            num1 = Integer.parseInt(numStack.pop());
-            num2 = Integer.parseInt(numStack.pop());
-            operator = operatorStack.pop().charAt(0);
+            num1 = numStack.pop();
+            num2 = numStack.pop();
+            operator = operatorStack.pop();
             result = CalculationUtil.calculation(num1, num2, operator);
             numStack.push(String.valueOf(result));
         }
