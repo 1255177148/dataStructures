@@ -1,15 +1,11 @@
 package com.zhan.data.stack;
 
 import com.zhan.data.expression.PostfixExpression;
-import com.zhan.data.util.CalculationUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @Author zhan

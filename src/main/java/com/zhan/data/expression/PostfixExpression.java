@@ -102,9 +102,10 @@ public class PostfixExpression {
      * @return
      */
     public List<String> toExpressionList(String str){
+        // 先去掉所有的空白字符，包括空格、制表符、换页符等等
+        str = str.replaceAll("\\s*", "");
         List<String> list = new ArrayList<>();
         int index = 0;
-        String item;
         StringBuffer sb = new StringBuffer();
         String pre = "";// 表示上一个存入list中的数据
         while (index < str.length()){
@@ -184,7 +185,7 @@ public class PostfixExpression {
     }
 
     public static void main(String[]args){
-        String str = "0.3";
-        System.out.println(str.matches("^([-+])?\\d+(\\.\\d+)?$"));
+        String str = "0.3 + 2 \t + 3\n + 4";
+        System.out.println(str.replaceAll("\\s*", ""));
     }
 }
