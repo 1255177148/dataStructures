@@ -14,6 +14,8 @@ public class MazeProblem {
     private int row;
     private int column;
 
+    private static int count = 0;
+
     /**
      * 初始化一个迷宫
      *
@@ -71,6 +73,7 @@ public class MazeProblem {
      * @return 是否找到出口
      */
     public boolean findWay(int i, int j) {
+        count++;
         if (map[row - 1][column - 1] == 2) { // 出口已找到
             return true;
         }
@@ -106,5 +109,6 @@ public class MazeProblem {
             }
             System.out.println();
         }
+        System.out.printf("走迷宫递归了%d次", count);
     }
 }
