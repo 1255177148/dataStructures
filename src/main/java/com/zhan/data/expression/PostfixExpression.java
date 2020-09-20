@@ -2,6 +2,7 @@ package com.zhan.data.expression;
 
 
 import com.zhan.data.util.CalculationUtil;
+import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Stack;
  * @Date 2020/9/19 14:38
  * 后缀表达式
  */
+@Data
 public class PostfixExpression {
 
     /**
@@ -45,7 +47,9 @@ public class PostfixExpression {
     }
 
     /**
-     * 中缀表达式如何转后缀表达式
+     * <p>中缀表达式如何转后缀表达式</p>
+     * <p>
+     *     <blockquote><pre>
      * 1、初始化两个栈，一个存储扫描的运算符的栈s1，一个是存储最终转换的后缀表达式的栈s2，当然，如果没有线程安全的需求，
      * 存储后缀表达式的栈可以用ArrayList代替；
      * 2、从左到右扫描表达式；
@@ -60,6 +64,8 @@ public class PostfixExpression {
      * 6、重复步骤2至5，一直到扫描完表达式
      * 7、将s1栈中剩余的运算符依次弹出并压入s2栈
      * 8、依次将s2中的元素弹出，然后将弹出的结果逆序输出，即为此中缀表达式对应的后缀表达式
+     * </pre></blockquote>
+     * </p>
      * @param expression 要转换的中缀表达式
      * @return 转换后的后缀表达式
      */
@@ -111,15 +117,9 @@ public class PostfixExpression {
         while (index < str.length()){
             if (sub(str, index).matches("\\d")){
                 // 如果是多位数，则循环拼接
-                sb.setLength(0); // 清空sb
-                while (isNumber(str, index)){
-                    sb.append(sub(str, index));
-                    index++;
-                }
-                pre = sb.toString();;
-                if (!pre.matches("^([-+])?\\d+(\\.\\d+)?$")){
-                    throw new RuntimeException("表达式格式错误，只能包含数字、小括号和运算符");
-                }
+                Iterator iterator = new Iterator();
+                pre = iterator.appendNumber(str, index);
+                index = iterator.getIndex();
                 list.add(pre);
             } else {
                 // 是运算符的话直接就放入List
@@ -128,14 +128,11 @@ public class PostfixExpression {
                     sb.setLength(0);
                     sb.append(sub(str, index));
                     index++;
-                    while (isNumber(str, index)){
-                        sb.append(sub(str, index));
-                        index++;
-                    }
+                    Iterator iterator = new Iterator();
+                    String result = iterator.appendNumber(str, index);
+                    sb.append(result);
                     pre = sb.toString();
-                    if (!pre.matches("^([-+])?\\d+(\\.\\d+)?$")){
-                        throw new RuntimeException("表达式格式错误，只能包含数字、小括号和运算符");
-                    }
+                    index = iterator.getIndex();
                     list.add(pre);
                 } else {
                     pre = sub(str, index);
@@ -162,10 +159,13 @@ public class PostfixExpression {
     }
 
     /**
-     * 用来识别是否为负数，
-     * 识别依据：
+     * <p>用来识别是否为负数，</p>
+     * <p>识别依据：
+     * <blockquote><pre>
      *  1、当前字符为"-"且前一位为"("，后一位为数字；
      *  2、当前字符为"-"，且处于字符串的首位
+     *  </pre></blockquote>
+     *  </p>
      * @param expression 当前表达式
      * @param index 要截取的开始下标
      * @param pre 上一个存入list中的数据
@@ -182,6 +182,31 @@ public class PostfixExpression {
 
     private String sub(String str, int index){
         return str.substring(index, index + 1);
+    }
+
+    @Data
+    class Iterator{
+        private int index;
+
+        /**
+         * 拼接数字
+         * @param expression 当前的表达式
+         * @param index 当前遍历的下标
+         * @return
+         */
+        public String appendNumber(String expression, int index){
+            StringBuffer sb = new StringBuffer();
+            while (isNumber(expression, index)){
+                sb.append(sub(expression, index));
+                index++;
+            }
+            this.index = index;
+            String result = sb.toString();
+            if (!result.matches("^([-+])?\\d+(\\.\\d+)?$")){
+                throw new RuntimeException("表达式格式错误，只能包含数字、小括号和运算符");
+            }
+            return result;
+        }
     }
 
     public static void main(String[]args){
