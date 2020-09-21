@@ -25,7 +25,7 @@ public class SelectSort {
         this.arr = new int[size];
         Random random = new Random();
         for (int i = 0; i < size; i++) {
-            arr[i] = random.nextInt(100);
+            arr[i] = random.nextInt(80000);
         }
     }
 
@@ -39,25 +39,30 @@ public class SelectSort {
      * </pre></blockquote>
      * </p>
      */
-    public void sort(){
-        if (arr.length <= 0){
+    public void sort() {
+        if (arr.length <= 0) {
             return;
         }
         int minIndex = 0; //表示数组中最小值的下标位置
         int min = 0; // 表示数组中最小值
-        for (int i =0;i<size-1;i++){
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < size - 1; i++) {
             minIndex = i;
             min = arr[i];
-            for (int j = i + 1;j<size;j++){
-                if (min > arr[j]){
+            for (int j = i + 1; j < size; j++) {
+                if (min > arr[j]) {
                     minIndex = j;
                     min = arr[j];
                 }
             }
-            arr[minIndex] = arr[i];
-            arr[i] = min;
-            System.out.println("第" + (i+1) + "次排序后的数组为:" + Arrays.toString(arr));
+            if (minIndex != i) { // 最小值的下标和原定不一样时，才开始交换
+                arr[minIndex] = arr[i];
+                arr[i] = min;
+            }
+//            System.out.println("第" + (i+1) + "次排序后的数组为:" + Arrays.toString(arr));
         }
-        System.out.println("升序后的数组为:" + Arrays.toString(arr));
+        long end = System.currentTimeMillis();
+        System.out.println("用选择排序为8万条数据进行升序总共耗时" + (end - start) / 1000 + "秒");
+//        System.out.println("升序后的数组为:" + Arrays.toString(arr));
     }
 }

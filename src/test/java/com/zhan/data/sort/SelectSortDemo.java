@@ -12,10 +12,15 @@ import java.util.Arrays;
  */
 @SpringBootTest
 public class SelectSortDemo {
+
+    /**
+     * 测下当数组容量为8万条数据时的排序耗时
+     */
     @Test
     void demo() {
-        SelectSort selectSort = new SelectSort(10);
-        System.out.println("初始化的数组为:" + Arrays.toString(selectSort.getArr()));
+        SelectSort selectSort = new SelectSort(80000);
+//        System.out.println("初始化的数组为:" + Arrays.toString(selectSort.getArr()));
+        System.out.println("初始化的数组大小为:" + selectSort.getArr().length);
         selectSort.sort();
     }
 }
