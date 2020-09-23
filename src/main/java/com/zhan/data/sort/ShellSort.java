@@ -37,7 +37,7 @@ public class ShellSort {
      *     3、再将步长Stride / 2得到新的步长,重复1、2步,直到步长小于1为止.
      * </pre></blockquote>
      * </p>
-     * <p>就是先逻辑分组,然后在每个分组内用插入排序</p>
+     * <p>就是先逻辑分组,然后在每个分组内用冒泡排序</p>
      */
     public void sortByChange() {
         int temp;
