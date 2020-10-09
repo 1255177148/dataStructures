@@ -28,11 +28,11 @@ public class FibonacciSearch {
 
     /**
      * <p>斐波那契查找</p>
-     * <p>思路参考:
      *
      * @param arr   要查找的数组
      * @param value 要查找的值
      * @return
+     * <p>思路参考:
      * @see <a href="https://blog.csdn.net/qq_41056506/article/details/81874439">斐波那契文章</a>
      * </p>
      * <p>大体和二分查找类似，区别也是在于中间下标mid的选取</p>
