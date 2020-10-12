@@ -54,6 +54,51 @@ public class BinaryTree {
         }
     }
 
+    /**
+     * <p>前序查找,思路:</p>
+     * <p>1、先比较当前节点，如果一致则返回;</p>
+     * <p>2、若和当前节点不一致，则向左递归前序查找,如果找到则返回;</p>
+     * <p>3、若没有找到，再向右递归前序查找，如果找到则返回</p>
+     * @param key 要查找的key
+     * @return
+     */
+    public Node preOrderSearch(int key){
+        if (root == null){
+            return null;
+        }
+        return root.preOrderSearch(key);
+    }
+
+    /**
+     * <p>中序查找，思路:</p>
+     * <p>1、先向左递归中序查找，如果找到则返回;</p>
+     * <p>2、若没有找到，则比较当前节点，找到就返回;</p>
+     * <p>3、若没有找到，则向右递归中序查找，找到就返回</p>
+     * @param key 要查找的key
+     * @return
+     */
+    public Node inOrderSearch(int key){
+        if (root == null){
+            return null;
+        }
+        return root.inOrderSearch(key);
+    }
+
+    /**
+     * <p>后序查找，思路:</p>
+     * <p>1、先向左递归中序查找，如果找到则返回;</p>
+     * <p>2、若没有找到，则向右递归中序查找，找到就返回</p>
+     * <p>3、若没有找到，则比较当前节点，找到就返回;</p>
+     * @param key 要查找的key
+     * @return
+     */
+    public Node postOrderSearch(int key){
+        if (root == null){
+            return null;
+        }
+        return root.postOrderSearch(key);
+    }
+
     @Data
     static class Node{
         private int key;
@@ -128,6 +173,100 @@ public class BinaryTree {
             }
 
             System.out.println(this); // 输出父节点
+        }
+
+        /**
+         * <p>前序查找,思路:</p>
+         * <p>1、先比较当前节点，如果一致则返回;</p>
+         * <p>2、若和当前节点不一致，则向左递归前序查找,如果找到则返回;</p>
+         * <p>3、若没有找到，再向右递归前序查找，如果找到则返回</p>
+         * @param key 要查找的key
+         * @return
+         */
+        public Node preOrderSearch(int key){
+            // 先比较当前节点
+            if (this.key == key){
+                return this;
+            }
+
+            Node result = null;
+            // 再向左递归前序查找
+            if (left != null){
+                result = left.preOrderSearch(key);
+            }
+            if (result != null){
+                return result;
+            }
+            // 如果没有找到，则向右递归前序查找
+            if (right != null){
+                result = right.preOrderSearch(key);
+            }
+            return result;
+        }
+
+        /**
+         * <p>中序查找，思路:</p>
+         * <p>1、先向左递归中序查找，如果找到则返回;</p>
+         * <p>2、若没有找到，则比较当前节点，找到就返回;</p>
+         * <p>3、若没有找到，则向右递归中序查找，找到就返回</p>
+         * @param key 要查找的key
+         * @return
+         */
+        public Node inOrderSearch(int key){
+            Node result = null;
+
+            // 先向左递归中序查找
+            if (left != null){
+                result = left.inOrderSearch(key);
+            }
+            if (result != null){
+                return result;
+            }
+
+            // 若没有找到，再比较当前节点
+            if (this.key == key){
+                return this;
+            }
+
+            // 若还没有找到，最后向右递归中序查找
+            if (right != null){
+                result = right.inOrderSearch(key);
+            }
+            return result;
+        }
+
+        /**
+         * <p>后序查找，思路:</p>
+         * <p>1、先向左递归中序查找，如果找到则返回;</p>
+         * <p>2、若没有找到，则向右递归中序查找，找到就返回</p>
+         * <p>3、若没有找到，则比较当前节点，找到就返回;</p>
+         * @param key 要查找的key
+         * @return
+         */
+        public Node postOrderSearch(int key){
+            Node result = null;
+
+            // 先向左递归中序查找
+            if (left != null){
+                result = left.postOrderSearch(key);
+            }
+            if (result != null){
+                return result;
+            }
+
+            // 若没有找到，则向右递归中序查找
+            if (right != null){
+                result = right.postOrderSearch(key);
+            }
+            if (result != null){
+                return result;
+            }
+
+            // 若没有找到，再比较当前节点
+            if (this.key == key){
+                return this;
+            }
+            return null;
         }
     }
 }
