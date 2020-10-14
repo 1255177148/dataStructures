@@ -99,6 +99,31 @@ public class BinaryTree {
         return root.postOrderSearch(key);
     }
 
+    /**
+     * <p>递归删除节点</p>
+     * <p>规定:如果删除的是叶子节点，则删除该节点；如果删除的是非叶子节点，则删除该子树</p>
+     * <p>思路：</p>
+     * <p>1、从root节点开始，如果root节点为要删除的节点，则将整个数 = null；</p>
+     * <p>2、如果当前节点的左子节点不为空，并且左子节点就是要删除的节点，则将 left = null, 并结束递归</p>
+     * <p>3、如果当前节点的右子节点不为空，并且右子节点就是要删除的节点，则将 right = null, 并结束递归</p>
+     * <p>4、如果 2 和 3 步没有删除节点，那么我们就需要向左子树进行递归删除</p>
+     * <p>5、如果 4 也没有删除节点，则应向右子树进行递归删除</p>
+     * @param key 要删除的key
+     * @return 是否删除
+     */
+    public boolean delNode(int key){
+        if (root == null){
+            return true;
+        }
+        if (root.key == key){
+            root = null;
+            return true;
+        } else {
+            root.delNode(key);
+        }
+        return true;
+    }
+
     @Data
     static class Node{
         private int key;
@@ -267,6 +292,35 @@ public class BinaryTree {
                 return this;
             }
             return null;
+        }
+
+        /**
+         * <p>递归删除节点</p>
+         * <p>规定:如果删除的是叶子节点，则删除该节点；如果删除的是非叶子节点，则删除该子树</p>
+         * <p>思路：</p>
+         * <p>1、如果当前节点的左子节点不为空，并且左子节点就是要删除的节点，则将 left = null, 并结束递归</p>
+         * <p>2、如果当前节点的右子节点不为空，并且右子节点就是要删除的节点，则将 right = null, 并结束递归</p>
+         * <p>3、如果 1 和 2 步没有删除节点，那么我们就需要向左子树进行递归删除</p>
+         * <p>4、如果 3 也没有删除节点，则应向右子树进行递归删除</p>
+         * @param key 要删除的key
+         */
+        public boolean delNode(int key){
+            if (left != null && left.key == key){
+                left = null;
+                return true;
+            }
+            if (right != null && right.key == key){
+                right = null;
+                return true;
+            }
+            boolean isDel = false;
+            if (left != null){
+                isDel = left.delNode(key);
+            }
+            if (!isDel && right != null){
+                isDel = right.delNode(key);
+            }
+            return isDel;
         }
     }
 }

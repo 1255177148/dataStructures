@@ -16,18 +16,7 @@ public class BinaryTreeDemo {
      */
     @Test
     void order() {
-        BinaryTree.Node root = new BinaryTree.Node(1, "宋江");
-        BinaryTree.Node node2 = new BinaryTree.Node(2, "吴用");
-        BinaryTree.Node node3 = new BinaryTree.Node(3, "卢俊义");
-        BinaryTree.Node node4 = new BinaryTree.Node(4, "林冲");
-        BinaryTree.Node node5 = new BinaryTree.Node(5, "关胜");
-        BinaryTree binaryTree = new BinaryTree();
-
-        root.setLeft(node2);
-        root.setRight(node3);
-        node3.setLeft(node5);
-        node3.setRight(node4);
-        binaryTree.setRoot(root);
+        BinaryTree binaryTree = initTree();
 
         System.out.println("前序遍历------------");
         binaryTree.preOrder();
@@ -61,5 +50,35 @@ public class BinaryTreeDemo {
         } else {
             System.out.printf("没找到 key=%d的数据\n", 5);
         }
+    }
+
+    @Test
+    void deleteDemo() {
+        BinaryTree binaryTree = initTree();
+        System.out.println("删除前的树为:");
+        binaryTree.preOrder();
+        binaryTree.delNode(1);
+        System.out.println("删除后的树为:");
+        binaryTree.preOrder();
+    }
+
+    /**
+     * 初始化一个树
+     * @return
+     */
+    private BinaryTree initTree(){
+        BinaryTree.Node root = new BinaryTree.Node(1, "宋江");
+        BinaryTree.Node node2 = new BinaryTree.Node(2, "吴用");
+        BinaryTree.Node node3 = new BinaryTree.Node(3, "卢俊义");
+        BinaryTree.Node node4 = new BinaryTree.Node(4, "林冲");
+        BinaryTree.Node node5 = new BinaryTree.Node(5, "关胜");
+        BinaryTree binaryTree = new BinaryTree();
+
+        root.setLeft(node2);
+        root.setRight(node3);
+        node3.setLeft(node5);
+        node3.setRight(node4);
+        binaryTree.setRoot(root);
+        return binaryTree;
     }
 }
