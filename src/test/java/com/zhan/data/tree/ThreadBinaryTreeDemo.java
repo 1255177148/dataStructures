@@ -10,8 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest
 public class ThreadBinaryTreeDemo {
+
+    /**
+     * 中序线索化demo
+     */
     @Test
-    void demo() {
+    void inThread() {
         ThreadBinaryTree.Node root = new ThreadBinaryTree.Node(1, "tom");
         ThreadBinaryTree.Node node2 = new ThreadBinaryTree.Node(3,"jack");
         ThreadBinaryTree.Node node3 = new ThreadBinaryTree.Node(6,"smith");
@@ -27,8 +31,7 @@ public class ThreadBinaryTreeDemo {
 
         ThreadBinaryTree threadBinaryTree = new ThreadBinaryTree();
         threadBinaryTree.setRoot(root);
-
-        // 已key = 10 的节点为测试对象，查看是否已线索化
+        // 以key = 10 的节点为测试对象，查看是否已线索化
         ThreadBinaryTree.Node leftNode1 = node5.getLeft();
         ThreadBinaryTree.Node rightNode1 = node5.getRight();
 
@@ -45,5 +48,42 @@ public class ThreadBinaryTreeDemo {
 
         System.out.println("使用线索化的方式遍历二叉树，遍历顺序保持线索化是的顺序-------------");
         threadBinaryTree.threadList();
+    }
+
+    /**
+     * 前序线索化demo
+     */
+    @Test
+    void preThread() {
+        ThreadBinaryTree.Node root = new ThreadBinaryTree.Node(1, "tom");
+        ThreadBinaryTree.Node node2 = new ThreadBinaryTree.Node(3,"jack");
+        ThreadBinaryTree.Node node3 = new ThreadBinaryTree.Node(6,"smith");
+        ThreadBinaryTree.Node node4 = new ThreadBinaryTree.Node(8,"mary");
+        ThreadBinaryTree.Node node5 = new ThreadBinaryTree.Node(10,"king");
+        ThreadBinaryTree.Node node6 = new ThreadBinaryTree.Node(14,"dim");
+
+        root.setLeft(node2);
+        root.setRight(node3);
+        node2.setLeft(node4);
+        node2.setRight(node5);
+        node3.setLeft(node6);
+
+        ThreadBinaryTree threadBinaryTree = new ThreadBinaryTree();
+        threadBinaryTree.setRoot(root);
+        // 以key = 10 的节点为测试对象，查看是否已线索化
+        ThreadBinaryTree.Node leftNode1 = node5.getLeft();
+        ThreadBinaryTree.Node rightNode1 = node5.getRight();
+        System.out.println("线索化二叉树之前-------------");
+        System.out.println("key为10的节点的前驱节点是：" + leftNode1);
+        System.out.println("key为10的后继节点为：" + rightNode1);
+        System.out.println("线索化二叉树之后-------------");
+        threadBinaryTree.preThreadNodes();
+        ThreadBinaryTree.Node leftNode2 = node5.getLeft();
+        ThreadBinaryTree.Node rightNode2 = node5.getRight();
+        System.out.println("key为10的节点的前驱节点是：" + leftNode2);
+        System.out.println("key为10的后继节点为：" + rightNode2);
+
+        System.out.println("使用线索化的方式遍历二叉树，遍历顺序保持线索化时的顺序-------------");
+        threadBinaryTree.preThreadList();
     }
 }
