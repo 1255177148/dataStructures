@@ -14,14 +14,21 @@ import java.util.Map;
  * @Date 2020/10/22 20:19
  * 赫夫曼编码(压缩数据)
  */
+@Data
 public class HuffmanCode {
+
+    public HuffmanCode() {
+        huffmanCodes = new HashMap<>();
+    }
+
+    private Map<Byte, String> huffmanCodes;
 
     /**
      * 生成一个赫夫曼树
      * @param content 给定的字符串
      * @return 赫夫曼树
      */
-    public Node creatHuffmanTree(String content){
+    public Node createHuffmanTree(String content){
         List<Node> nodes = getNodes(content);
         while (nodes.size() > 1){
             // 升序排序
@@ -43,6 +50,63 @@ public class HuffmanCode {
             nodes.add(parent);
         }
         return nodes.get(0);
+    }
+
+    /**
+     * 得到传入的node节点的所有叶子节点的赫夫曼编码，并放入集合中
+     * @param node 传入的节点
+     * @return 赫夫曼编码集合
+     */
+    public Map<Byte, String> getCodes(Node node){
+        getCodes(node, "", new StringBuilder());
+        return huffmanCodes;
+    }
+
+    /**
+     * 得到传入的node节点的所有叶子节点的赫夫曼编码，并放入集合中
+     * @param node 传入的节点
+     * @param code 赫夫曼树的路径，左子节点为0；右子节点为1
+     * @param sb 用来拼接路径，形成编码
+     */
+    public void getCodes(Node node, String code, StringBuilder sb){
+        if (node == null){
+            return;
+        }
+        StringBuilder builder = new StringBuilder(sb);
+        // 将 code 拼接到 builder
+        builder.append(code);
+        // 判断当前节点是否为非叶子节点
+        if (node.data == null){ // 非叶子节点
+            // 递归处理
+            // 向左递归
+            getCodes(node.left, "0", builder);
+            // 向右递归
+            getCodes(node.right, "1", builder);
+        } else { // 叶子节点
+            huffmanCodes.put(node.data, builder.toString());
+        }
+    }
+
+    /**
+     * 根据给定的数据生成对应的赫夫曼编码数据
+     * @param content 给定的数据
+     * @return
+     */
+    public String getHuffmanCoding(String content){
+        // 1、获取赫夫曼树
+        Node root = createHuffmanTree(content);
+        // 2、获取赫夫曼编码集合
+        Map<Byte, String> huffmanCodes = getCodes(root);
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes){
+            for (Map.Entry<Byte, String> entry : huffmanCodes.entrySet()){
+                if (b == entry.getKey()){
+                    sb.append(entry.getValue());
+                }
+            }
+        }
+        return sb.toString();
     }
 
     /**
