@@ -3,6 +3,15 @@ package com.zhan.data.tree;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,10 +36,10 @@ public class HuffmanCode {
     /**
      * 生成一个赫夫曼树
      *
-     * @param content 给定的字符串
+     * @param content 给定的数据
      * @return 赫夫曼树
      */
-    public Node createHuffmanTree(String content) {
+    public Node createHuffmanTree(byte[] content) {
         List<Node> nodes = getNodes(content);
         while (nodes.size() > 1) {
             // 升序排序
@@ -97,18 +106,17 @@ public class HuffmanCode {
      * @param content 给定的数据
      * @return
      */
-    public Zip getHuffmanZip(String content) {
+    public Zip getHuffmanZip(byte[] content) {
         Zip zip = new Zip();
         // 1、获取赫夫曼树
         Node root = createHuffmanTree(content);
         // 2、获取赫夫曼编码集合
         Map<Byte, String> huffmanCodes = getCodes(root);
-        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        zip.setHuffmanCodes(huffmanCodes);
         StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
+        for (byte b : content) {
             sb.append(huffmanCodes.get(b));
         }
-        System.out.println(sb.toString());
         // 3、将生成的赫夫曼编码的字符串转为byte[],这里生成的编码的，使用字符串来接收的，其实是二进制，所以要以每8位为一个byte，转换为byte[]
         // 统计下要转的byte[] 的长度，因为 是以8位转换为byte，所以要 除以8 取余,
         // 可以一行代码，来得到 len ，int len = (sb.length() + 7) / 8
@@ -153,7 +161,6 @@ public class HuffmanCode {
             boolean flag = (i == huffmanData.length - 1);
             sb.append(byteToBinaryString(!flag, huffmanData[i], length)); // 如果是最后一个字节，不需要补高位
         }
-        System.out.println(sb.toString());
         // 2、把二进制字符串 按指定的赫夫曼编码集合 进行解码
         // 将赫夫曼编码表 huffmanCodes 反向放入一个新的解码表map中，即编码表中的 key 变为新的解码表的value， 编码表的 value 变为解码表的key
         Map<String, Byte> huffmanDecodes = new HashMap<>();
@@ -161,29 +168,22 @@ public class HuffmanCode {
             huffmanDecodes.put(entry.getValue(), entry.getKey());
         }
         List<Byte> byteList = new ArrayList<>();
-        boolean flag = false; // 标识是否从解码表中找到对应的数据，找到后，就按解码表拿出数据，并从 sb 中截取出来
-        int index = 0; // 表示查找的下标
-        StringBuilder stringBuilder = new StringBuilder();
+        int index = 0; // 表示查找开始的下标
+        int count = 0; // 表示查找末尾的下标
         while (sb.length() > 0) {
-            if (flag) { // 如果上一次遍历已经从解码表中找到字符，并且截取出去了，就从下标为0开始遍历比对
-                index = 0;
-            }
-            if (index > sb.length() - 1) { // 如果找到最后一位字符，就退出
+            if (count > sb.length() - 1) { // 如果找到最后一位字符，就退出
                 break;
             }
-            stringBuilder.append(sb.substring(index, index + 1));
-            Byte bt = huffmanDecodes.get(stringBuilder.toString());
+            String key = sb.substring(index, count + 1);
+            Byte bt = huffmanDecodes.get(key);
             if (bt != null) { // 如果从解码表中匹配到
                 byteList.add(bt);
-                flag = true;
+                index = count + 1; // 将查找开始下标 初始化为下一个byte 二进制的开始
                 if (index + 1 > sb.length() - 1) { // 如果找到最后一位字符，就退出
                     break;
                 }
-                sb.delete(0, index + 1);
-                stringBuilder.setLength(0); // 匹配到解码表后，就清空，然后继续下一轮的对比
             } else {
-                index++;
-                flag = false;
+                count++;
             }
         }
         int size = byteList.size();
@@ -214,6 +214,59 @@ public class HuffmanCode {
         }
     }
 
+    /**
+     * 压缩文件
+     *
+     * @param targetFile 要压缩的目标文件路径
+     * @param toFile     压缩后的文件路径
+     * @throws Exception
+     */
+    public void zipFile(String targetFile, String toFile) throws Exception {
+        long start = System.currentTimeMillis();
+        // 1、创建文件的输入流，这里使用缓冲字节流
+        FileInputStream is = new FileInputStream(targetFile);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(is);
+        // 2、创建一个和源文件一样大小的byte[]
+        byte[] bytes = new byte[is.available()];
+        // 3、用byte[] 接收文件
+        bufferedInputStream.read(bytes);
+        // 4、获取压缩后的数据
+        Zip zip = getHuffmanZip(bytes);
+        // 5、创建文件的输出流
+        FileOutputStream os = new FileOutputStream(toFile);
+        ObjectOutputStream oos = new ObjectOutputStream(os);
+        // 6、将压缩后的数据写入
+        oos.writeObject(zip);
+        bufferedInputStream.close();
+        oos.close();
+        long end = System.currentTimeMillis();
+        System.out.println("压缩文件共耗时" + (end - start) + "毫秒");
+    }
+
+    /**
+     * 解压文件
+     *
+     * @param targetFile 要解压的目标文件路径
+     * @param toFile     解压后的文件路径
+     */
+    public void unZipFile(String targetFile, String toFile) throws Exception {
+        long start = System.currentTimeMillis();
+        // 定义文件的输入流
+        FileInputStream in = new FileInputStream(targetFile);
+        ObjectInputStream oin = new ObjectInputStream(in);
+        Zip zip = (Zip) oin.readObject();
+        // 解压
+        byte[] bytes = decode(zip.getHuffmanCodes(), zip.getData(), zip.getLength());
+        // 定义输出流
+        FileOutputStream on = new FileOutputStream(toFile);
+        BufferedOutputStream bon = new BufferedOutputStream(on);
+        bon.write(bytes);
+        oin.close();
+        bon.close();
+        long end = System.currentTimeMillis();
+        System.out.println("解压文件共耗时" + (end - start) + "毫秒");
+    }
+
     public static void main(String[] args) {
         byte b = 3;
 //        b |= 256; // 这里的运算没有任何作用，起不到补高位的作用
@@ -238,17 +291,16 @@ public class HuffmanCode {
     }
 
     /**
-     * <p>将给定的 String 转为 node集合</p>
+     * <p>将给定的 数据 转为 node集合</p>
      * <p>node 中包含该字符串的每个字符以及其出现的次数</p>
      *
-     * @param content 给定的字符串
+     * @param content 给定的数据
      * @return
      */
-    private List<Node> getNodes(@NotNull String content) {
+    private List<Node> getNodes(byte[] content) {
         List<Node> nodes = new ArrayList<>();
-        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
         Map<Byte, Integer> map = new HashMap<>();
-        for (byte b : bytes) {
+        for (byte b : content) {
             map.put(b, map.getOrDefault(b, 0) + 1);
         }
         for (Map.Entry<Byte, Integer> entry : map.entrySet()) {
@@ -258,9 +310,11 @@ public class HuffmanCode {
     }
 
     @Data
-    static class Zip {
+    static class Zip implements Serializable {
+        private static final long serialVersionUID = 12L;
         private int length; // 二进制字符串，最后一位有效位数
         private byte[] data; // 压缩后的数据
+        private Map<Byte, String> huffmanCodes; // 赫夫曼编码表
     }
 
     @Data
