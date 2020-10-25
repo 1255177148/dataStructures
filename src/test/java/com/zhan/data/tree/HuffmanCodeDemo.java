@@ -45,7 +45,7 @@ public class HuffmanCodeDemo {
      */
     @Test
     void getHuffmanCoding() {
-        String content = "我喜欢Java";
+        String content = "我喜欢Java$/?<>,.!@#%^&*()-=";
         System.out.println("编码前的数据为:" + content);
         System.out.println("编码前的长度为:" + content.getBytes(StandardCharsets.UTF_8).length);
         HuffmanCode huffmanCode = new HuffmanCode();
