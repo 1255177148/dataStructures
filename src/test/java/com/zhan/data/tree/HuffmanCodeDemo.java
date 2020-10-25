@@ -3,6 +3,8 @@ package com.zhan.data.tree;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -39,15 +41,17 @@ public class HuffmanCodeDemo {
     }
 
     /**
-     * 根据给定的数据，生成对应的赫夫曼编码
+     * 根据给定的数据，生成对应的赫夫曼编码，并且将编码压缩后的数据解码出来
      */
     @Test
     void getHuffmanCoding() {
-        String content = "i like like like java do you like a java";
-        System.out.println("编码前的长度为:" + content.length());
+        String content = "我喜欢Java";
+        System.out.println("编码前的数据为:" + content);
         HuffmanCode huffmanCode = new HuffmanCode();
-        String coding = huffmanCode.getHuffmanCoding(content);
-        System.out.println("对应的赫夫曼编码数据为:" + coding);
-        System.out.println("编码后的数据长度为:" + coding.length());
+        HuffmanCode.Zip zip = huffmanCode.getHuffmanZip(content);
+        System.out.println("对应的赫夫曼编码数据为:" + Arrays.toString(zip.getData()));
+        System.out.println("编码后的长度为:" + zip.getData().length);
+        byte[] decode = huffmanCode.decode(huffmanCode.getHuffmanCodes(), zip.getData(), zip.getLength());
+        System.out.println("赫夫曼解码后的数据为:" + new String(decode, StandardCharsets.UTF_8));
     }
 }
