@@ -47,6 +47,7 @@ public class HuffmanCodeDemo {
     void getHuffmanCoding() {
         String content = "我喜欢Java";
         System.out.println("编码前的数据为:" + content);
+        System.out.println("编码前的长度为:" + content.getBytes(StandardCharsets.UTF_8).length);
         HuffmanCode huffmanCode = new HuffmanCode();
         HuffmanCode.Zip zip = huffmanCode.getHuffmanZip(content);
         System.out.println("对应的赫夫曼编码数据为:" + Arrays.toString(zip.getData()));
