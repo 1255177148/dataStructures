@@ -25,12 +25,47 @@ public class BinarySortTree {
         }
     }
 
+    /**
+     * 中序遍历
+     */
     public void inOrder(){
         if (root == null){
             System.out.println("当前二叉排序树为空");
             return;
         }
         root.inOrder();
+    }
+
+    /**
+     * 查找要删除的节点
+     * @param value 要删除节点的值
+     * @return 要删除的节点
+     */
+    public Node search(int value){
+        if (root == null){
+            return null;
+        }
+        return root.search(value);
+    }
+
+    /**
+     * 查找要删除的节点的父节点
+     * @param value 要删除的节点的值
+     * @return 要删除节点的父节点
+     */
+    public Node searchParent(int value){
+        if (root == null){
+            return null;
+        }
+        return root.searchParent(value);
+    }
+
+    /**
+     * 删除指定的节点
+     * @param value 要删除的节点的值
+     */
+    public void remove(int value){
+
     }
 
     @Data
@@ -95,6 +130,55 @@ public class BinarySortTree {
             System.out.println(this);
             if (this.right != null){
                 right.inOrder();
+            }
+        }
+
+        /**
+         * 根据指定的值查找节点
+         * @param value 要查找的值
+         * @return 对应的节点
+         */
+        public Node search(int value){
+            Node temp = this;
+            while (true){
+                if (temp == null){
+                    return null;
+                }
+                // 找到就返回该节点
+                if (temp.value == value){
+                    return temp;
+                }
+                if (value < temp.value){ // 如果要找的值小于当前节点的值
+                    // 向左子节点继续查找
+                    temp = temp.left;
+                } else { // 如果要找的值大于当前节点的值
+                    // 向右子节点继续查找
+                    temp = temp.right;
+                }
+            }
+        }
+
+        /**
+         * 查找要删除节点的父节点
+         * @param value 要删除的节点的值
+         * @return 要删除节点的父节点
+         */
+        public Node searchParent(int value){
+            Node temp = this;
+            while (true){
+                // 如果当前节点就是要删除的节点的父节点
+                if ((temp.left != null && temp.left.value == value) ||
+                        (temp.right != null && temp.right.value == value)){
+                    return temp;
+                } else {
+                    if (value < temp.value && temp.left != null){ // 如果目标值小于当前节点，并且当前节点的左子节点不为空
+                        temp = temp.left; // 向左子节点继续查找
+                    } else if (value >= temp.value && temp.right != null){ // 如果目标值大于等于当前节点，并且当前节点的右子节点不为空
+                        temp = temp.right; // 向右子节点继续查找
+                    } else {
+                        return null;
+                    }
+                }
             }
         }
     }
