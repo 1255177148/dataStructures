@@ -21,4 +21,19 @@ public class BinarySortTreeDemo {
         System.out.println("创建的二叉排序树的中序遍历为:");
         binarySortTree.inOrder();
     }
+
+    @Test
+    void demoForDelete() {
+        int[] arr = {7};
+        BinarySortTree binarySortTree = new BinarySortTree();
+        // 循环添加节点到二叉树
+        for (int value : arr) {
+            binarySortTree.add(new BinarySortTree.Node(value));
+        }
+        System.out.println("创建的二叉排序树的中序遍历为:");
+        binarySortTree.inOrder();
+        binarySortTree.remove(7);
+        System.out.println("删除指定节点后的二叉树为:");
+        binarySortTree.inOrder();
+    }
 }
