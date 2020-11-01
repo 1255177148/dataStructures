@@ -30,7 +30,7 @@ public class BinaryTreeDemo {
         System.out.println("前序查找------------");
         BinaryTree.Node preNode = binaryTree.preOrderSearch(5);
         if (preNode != null){
-            System.out.printf("找到了，数据为 key=%d, key=%s\n", preNode.getKey(), preNode.getValue());
+            System.out.printf("找到了，数据为 key=%d, value=%s\n", preNode.getKey(), preNode.getValue());
         } else {
             System.out.printf("没找到 key=%d的数据\n", 5);
         }
@@ -38,7 +38,7 @@ public class BinaryTreeDemo {
         System.out.println("中序查找------------");
         BinaryTree.Node inNode = binaryTree.inOrderSearch(5);
         if (inNode != null){
-            System.out.printf("找到了，数据为 key=%d, key=%s\n", inNode.getKey(), inNode.getValue());
+            System.out.printf("找到了，数据为 key=%d, value=%s\n", inNode.getKey(), inNode.getValue());
         } else {
             System.out.printf("没找到 key=%d的数据\n", 5);
         }
@@ -46,7 +46,7 @@ public class BinaryTreeDemo {
         System.out.println("后序查找------------");
         BinaryTree.Node postNode = binaryTree.postOrderSearch(5);
         if (postNode != null){
-            System.out.printf("找到了，数据为 key=%d, key=%s\n", postNode.getKey(), postNode.getValue());
+            System.out.printf("找到了，数据为 key=%d, value=%s\n", postNode.getKey(), postNode.getValue());
         } else {
             System.out.printf("没找到 key=%d的数据\n", 5);
         }
