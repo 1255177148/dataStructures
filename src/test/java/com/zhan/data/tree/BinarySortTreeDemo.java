@@ -16,7 +16,7 @@ public class BinarySortTreeDemo {
         BinarySortTree binarySortTree = new BinarySortTree();
         // 循环添加节点到二叉树
         for (int value : arr) {
-            binarySortTree.add(new BinarySortTree.Node(value));
+            binarySortTree.add(new BinarySortTree.Node(value, String.valueOf(value)));
         }
         System.out.println("创建的二叉排序树的中序遍历为:");
         binarySortTree.inOrder();
@@ -24,11 +24,11 @@ public class BinarySortTreeDemo {
 
     @Test
     void demoForDelete() {
-        int[] arr = {7};
+        int[] arr = {7, 3, 10, 12, 5, 1, 9};
         BinarySortTree binarySortTree = new BinarySortTree();
         // 循环添加节点到二叉树
         for (int value : arr) {
-            binarySortTree.add(new BinarySortTree.Node(value));
+            binarySortTree.add(new BinarySortTree.Node(value, String.valueOf(value)));
         }
         System.out.println("创建的二叉排序树的中序遍历为:");
         binarySortTree.inOrder();

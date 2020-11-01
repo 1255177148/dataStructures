@@ -15,7 +15,7 @@ public class HashTableDemo {
 
     @Test
     void demo() {
-        HashTable<Integer, String> hashTable = new HashTable<Integer,String>();
+        HashTable<Integer, String> hashTable = new HashTable<>();
         String input = "";
         Scanner scanner = new Scanner(System.in);
         while (true) {
