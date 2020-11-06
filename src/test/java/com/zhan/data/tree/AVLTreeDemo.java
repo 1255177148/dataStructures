@@ -47,4 +47,23 @@ public class AVLTreeDemo {
         System.out.println("树的右子树的高度=" + avlTree.getRoot().getRight().height());
         System.out.println("树的根节点为:" + avlTree.getRoot().toString());
     }
+
+    /**
+     * 测试双旋转
+     */
+    @Test
+    void demoForDoubleRotate() {
+        int[] arr = {10,11,7,6,8,9};
+        AVLTree avlTree = new AVLTree();
+        for (int i : arr) {
+            avlTree.add(new AVLTree.Node(i, String.valueOf(i)));
+        }
+        System.out.println("中序遍历--------");
+        avlTree.inOrder();
+
+        System.out.println("树的高度=" + avlTree.getRoot().height());
+        System.out.println("树的左子树的高度=" + avlTree.getRoot().getLeft().height());
+        System.out.println("树的右子树的高度=" + avlTree.getRoot().getRight().height());
+        System.out.println("树的根节点为:" + avlTree.getRoot().toString());
+    }
 }

@@ -155,7 +155,7 @@ public class AVLTree {
     }
 
     @Data
-    static class NodeData {
+    private static class NodeData {
         private int key;
         private String value;
     }
@@ -189,6 +189,10 @@ public class AVLTree {
             return left == null ? 0 : left.height();
         }
 
+        /**
+         * 获取当前节点右子树的高度
+         * @return 当前节点右子树的高度
+         */
         public int rightHeight() {
             return right == null ? 0 : right.height();
         }
@@ -260,6 +264,7 @@ public class AVLTree {
         /**
          * <p>添加一个节点到二叉排序树种</p>
          * <p>保证节点的左子节点小于自己，节点的右子节点大于自己</p>
+         * <p>还要保证此树是一个为平衡二叉树，即左右两子树的高度差不大于1</p>
          *
          * @param node 要添加的节点
          */
@@ -293,12 +298,22 @@ public class AVLTree {
             }
             // 当添加完一个节点后，如果 (右子树的高度 - 左子树的高度) > 1，则左旋转
             if (rightHeight() - leftHeight() > 1){
-
+                // 如果它的右子树的 左子树的高度 大于 它的右子树的 右子树的高度
+                if (right != null && right.leftHeight() > right.rightHeight()){
+                    // 以当前节点的 右子节点 为子树的根节点，进行右旋转
+                    right.rightRotate();
+                }
                 leftRotate();// 左旋转
+                return;
             }
 
             // 当添加完一个节点后，如果(左子树的高度 - 右子树的高度) > 1，则右旋转
             if (leftHeight() - rightHeight() > 1){
+                // 如果它的左子树的右子树高度大于它的左子树的左子树高度
+                if (left != null && left.rightHeight() > left.leftHeight()){
+                    // 以当前节点的左节点为子树的根节点，进行左旋转
+                    left.leftRotate();
+                }
                 rightRotate();
             }
         }
