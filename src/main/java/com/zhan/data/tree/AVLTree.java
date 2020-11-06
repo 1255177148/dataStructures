@@ -231,6 +231,33 @@ public class AVLTree {
         }
 
         /**
+         * <p>平衡二叉树的右旋，对二叉树进行右旋，已达到平衡二叉树，思路:</p>
+         * <blockquote><pre>
+         *     1、创建新的节点，值就为当前根节点的值;
+         *     2、把新的节点的右子树设置成当前节点的右子树;
+         *     3、把新的节点的左子树设置成当前节点的左子树的右子树;
+         *     4、把当前节点的值换成其左子节点的值;
+         *     5、把当前节点的左子节点指向其左子节点的左子节点;
+         *     6、把当前节点的右子节点设置成新的节点.
+         * </pre></blockquote>
+         */
+        private void rightRotate(){
+            // 创建新的节点
+            Node newNode = new Node(key,value);
+            // 把新的节点的右子树设置成当前节点的右子树
+            newNode.right = right;
+            // 把新的节点的左子树设置成当前节点的左子树的右子树
+            newNode.left = left.right;
+            // 把当前节点的值换成其左子节点的值
+            key = left.key;
+            value = left.value;
+            // 把当前节点的左子节点指向其左子节点的左子节点
+            left = left.left;
+            // 把当前节点的右子节点设置成新的节点
+            right = newNode;
+        }
+
+        /**
          * <p>添加一个节点到二叉排序树种</p>
          * <p>保证节点的左子节点小于自己，节点的右子节点大于自己</p>
          *
@@ -268,6 +295,11 @@ public class AVLTree {
             if (rightHeight() - leftHeight() > 1){
 
                 leftRotate();// 左旋转
+            }
+
+            // 当添加完一个节点后，如果(左子树的高度 - 右子树的高度) > 1，则右旋转
+            if (leftHeight() - rightHeight() > 1){
+                rightRotate();
             }
         }
 
