@@ -4,7 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @Author Zhanzhan
@@ -29,6 +31,55 @@ public class GraphByMatrix {
         edges = new int[n][n];
         vertexList = new ArrayList<>(n);
         visited = new boolean[n];
+    }
+
+    /**
+     * <p>广度优先遍历</p>
+     * <p>对每个顶点进行广度优先遍历</p>
+     */
+    public void bfs(){
+        int length = vertexList.size();
+        for (int i = 0; i < length;i++){
+            if (!visited[i]){
+                bfs(i);
+            }
+        }
+    }
+
+    /**
+     * <p>对下标为 i 的顶点进行广度优先遍历,思路:</p>
+     * <blockquote><pre>
+     *     1、先将给定的顶点入队列;
+     *     2、然后取出队列中的顶点,找到所有此顶点的临近顶点,依次放入队列;
+     *     3、重复步骤 2,直到队列为空
+     * </pre></blockquote>
+     * @param i
+     */
+    private void bfs(int i){
+        // 创建一个队列
+        Queue<Integer> queue = new LinkedList<>();
+        // 将当前顶点设置为已访问
+        visited[i] = true;
+        // 打印当前顶点
+        System.out.print(getVertexValueByIndex(i) + "->");
+        // 添加当前顶点的下标到队列
+        queue.add(i);
+        // 循环，直到队列为空
+        while (!queue.isEmpty()){
+            // 取出队列中的顶点,先进先出
+            int k = queue.poll();
+            // 找到所有的临近顶点,然后打印并入队列
+            for (int j = 0;j<vertexList.size();j++){
+                if (edges[k][j] > 0 && !visited[j]){
+                    // 将当前顶点设置为已访问
+                    visited[j] = true;
+                    // 打印当前顶点
+                    System.out.print(getVertexValueByIndex(j) + "->");
+                    // 添加当前顶点的下标到队列
+                    queue.add(j);
+                }
+            }
+        }
     }
 
     /**
