@@ -34,7 +34,8 @@ public class BinarySearch {
         if (left > right){
             return new ArrayList<>();
         }
-        int mid = (left + right)/2;
+//        int mid = (left + right)/2; // 这种写法，在left 和 right很大的情况下，两个数相加核能会导致 int 类型的溢出，即超出int最大值
+        int mid = left + (right - left) / 2; // 这种写法，就防止了int类型的溢出
         if (arr[mid] > value){
             return binarySearch(arr, value, left, mid -1);
         } else if (arr[mid] < value){
