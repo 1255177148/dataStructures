@@ -33,6 +33,86 @@ public class RedBlackTree {
         root.inOrder();
     }
 
+    /**
+     * 添加完节点后，对整个红黑树进行调整以满足红黑树的规则
+     * @param node
+     */
+    public void fixAfterInsert(Node node){
+
+    }
+
+    /**
+     * <p>红黑树的左旋，思路:</p>
+     * <pre>
+     *     1、看当前节点是否是根节点
+     *        1.1、如果是根节点,则将当前节点的右子节点设置为根节点
+     *        1.2、如果不是根节点
+     *          (1)、如果父节点的左子节点是当前节点，则将当前节点的右子节点设置为父节点的左子节点
+     *          (2)、如果父节点的右子节点是当前节点，则将当前节点的右子节点设置为父节点的右子节点
+     *     2、将当前节点的右子节点设置为当前节点的父节点
+     *     3、将当前节点的右子节点的左子节点设置为当前节点的右子节点
+     *     4、将当前节点设置为其右子节点的左子节点
+     * </pre>
+     * @param node
+     */
+    private void leftRotate(Node node){
+        Node right = node.getRight();
+        Node parent = node.getParent();
+        if (parent == null){ // 如果当前节点是根节点
+            right.setParent(null);
+            root = right;
+        } else {
+            if (parent.getLeft() != null && parent.getLeft() == node){
+                parent.setLeft(right);
+            } else {
+                parent.setRight(right);
+            }
+            right.setParent(parent);
+        }
+        node.setParent(right);
+        node.setRight(right.getLeft());
+        if (right.getLeft() != null){
+            right.getLeft().setParent(node);
+        }
+        right.setLeft(node);
+    }
+
+    /**
+     * <p>红黑树的右旋，思路：</p>
+     * <pre>
+     *     1、看当前节点是否是根节点
+     *        1.1、如果是根节点，则将当前节点的左子节点设置为根节点
+     *        1.2、如果不是根节点
+     *          (1)、如果当前节点是父节点的左子节点，则将当前节点的左子节点设置为父节点的左子节点
+     *          (2)、如果当前节点是父节点的右子节点，则将当前节点的左子节点设置为父节点的右子节点
+     *     2、将当前节点的左子节点设置为当前节点的父节点
+     *     3、将当前节点的左子节点的右子节点设置为当前节点的左子节点
+     *     4、将当前节点设置为其左子节点的右子节点
+     * </pre>
+     * @param node
+     */
+    private void rightRotate(Node node){
+        Node left = node.getLeft();
+        Node parent = node.getParent();
+        if (parent == null){
+            left.setParent(null);
+            root = left;
+        } else {
+            if (parent.getLeft() != null && parent.getLeft() == node){
+                parent.setLeft(left);
+            } else {
+                parent.setRight(left);
+            }
+            left.setParent(parent);
+        }
+        node.setParent(left);
+        node.setLeft(left.getRight());
+        if (left.getRight() != null){
+            left.getRight().setParent(node);
+        }
+        left.setRight(node);
+    }
+
     @Data
     static class Node{
         private int key;
